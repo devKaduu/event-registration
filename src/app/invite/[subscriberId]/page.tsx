@@ -4,8 +4,14 @@ import { Ranking } from "./ranking";
 import { Stats } from "./stats";
 import { InviteLinkInput } from "./invite-link-input";
 
-export default function InvitePage() {
-  const inviteLink = "http://localhost:300/invite/123892138913";
+interface InvitePagePros {
+  params: Promise<{ subscriberId: string }>;
+}
+
+export default async function InvitePage({ params }: InvitePagePros) {
+  const { subscriberId } = await params;
+
+  const inviteLink = `http://localhost:3333/invites/${subscriberId}`;
 
   return (
     <div className="min-h-dvh flex items-center justify-between gap-16 flex-col md:flex-row">
@@ -19,14 +25,13 @@ export default function InvitePage() {
           <div className="space-y-3">
             <h2 className="text-gray-200 text-xl font-heading font-semibold leading-none">Indique e ganhe</h2>
             <p className="text-gray-300">
-              Convide mais pessoas para o evento e concorra a prêmios exclusivos! É só compartilhar o link abaixo e
-              acompanhar as inscrições:
+              Convide mais pessoas para o evento e concorra a prêmios exclusivos! É só compartilhar o link abaixo e acompanhar as inscrições:
             </p>
           </div>
         </div>
 
         <InviteLinkInput inviteLink={inviteLink} />
-        <Stats />
+        <Stats subscriberId={subscriberId} />
       </div>
       <Ranking />
     </div>
